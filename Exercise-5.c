@@ -122,5 +122,59 @@ int main(){
     }while(choice != 4);
  return 0;
 }
+scenario 2:
+typedef struct Book {
+    char isbn[20];
+    char title[100];
+    struct Book *left;
+    struct Book *right;
+} Book;
+
+Book* insert(Book* root, char* isbn, char* title) {
+    if (root == NULL) {
+        Book* newBook = (Book*)malloc(sizeof(Book));
+        strcpy(newBook->isbn, isbn);
+        strcpy(newBook->title, title);
+        newBook->left = newBook->right = NULL;
+        return newBook;
+    }
+    if (strcmp(isbn, root->isbn) < 0) {
+        root->left = insert(root->left, isbn, title);
+    } else {
+        root->right = insert(root->right, isbn, title);
+    }
+    return root;
+}
+
+typedef struct Student {
+    int id;
+    char name[100];
+    struct Student *left;
+    struct Student *right;
+} Student;
+
+Student* addStudent(Student* root, int id, char* name) {
+    if (root == NULL) {
+        Student* newStudent = (Student*)malloc(sizeof(Student));
+        newStudent->id = id;
+        strcpy(newStudent->name, name);
+        newStudent->left = newStudent->right = NULL;
+        return newStudent;
+    }
+    if (id < root->id) {
+        root->left = addStudent(root->left, id, name);
+    } else {
+        root->right = addStudent(root->right, id, name);
+    }
+    return root;
+}
+
+void inOrderTraversal(Student* root) {
+    if (root != NULL) {
+        inOrderTraversal(root->left);
+        printf("%d ", root->id);
+        inOrderTraversal(root->right);
+    }
+}
 
 
